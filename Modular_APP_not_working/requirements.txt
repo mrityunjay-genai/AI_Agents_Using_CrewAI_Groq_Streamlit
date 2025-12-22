@@ -1,0 +1,19 @@
+# Core Agent Framework
+crewai
+crewai-tools
+
+# LLM Connectors
+langchain-groq
+# litellm==1.80.10
+# litellm[proxy]
+litellm>=1.75.3
+litellm-proxy-extras>=0.4.16
+apscheduler
+fastapi
+uvicorn
+
+# UI and Environment
+streamlit
+python-dotenv
+
+

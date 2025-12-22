@@ -5,10 +5,10 @@ import streamlit as st
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew,LLM
 from crewai_tools import SerperDevTool
-from langchain_groq import ChatGroq
 
 # --- Load environment variables --- 
 load_dotenv()
+
 
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -19,12 +19,12 @@ if not SERPER_API_KEY or not GROQ_API_KEY or not GOOGLE_API_KEY:
     st.error("❌ Missing SERPER_API_KEY or GROQ_API_KEY or GOOGLE_API_KEY in your environment.")
     st.stop()
 
-search_tool = SerperDevTool()
+search_tool = SerperDevTool(n_results=10)
 
-
+model="groq/openai/gpt-oss-120b"  #"/groq/meta-llama/llama-4-scout-17b-16e-instruct"
 # 2. Use CrewAI's dedicated LLM class for Groq
 llm_groq = LLM(
-    model="groq/llama-3.3-70b-versatile",  # Specify provider prefix
+    model= model,#"groq/llama-3.1-8b-instant", #"groq/llama-3.3-70b-versatile",  # Specify provider prefix
     temperature=0.5,
     api_key=GROQ_API_KEY,
     max_tokens=1000 # Direct parameter in CrewAI's LLM class
@@ -48,7 +48,6 @@ def create_research_task(agent, topic):
     return Task(
         description=f"Research the following topic and provide a comprehensive summary: {topic}",
         agent=agent,
-        # llm=llm_groq,
         expected_output=(
             "A detailed summary of the research findings, including key points and insights related to the topic."
         )
@@ -58,7 +57,9 @@ def run_research(topic):
     agent = create_research_agent()
     task = create_research_task(agent, topic)
     crew = Crew(agents=[agent],
-                tasks=[task])
+                tasks=[task],
+                verbose=True
+                )
     result = crew.kickoff()
     return result
 
