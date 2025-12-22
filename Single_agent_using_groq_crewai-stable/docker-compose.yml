@@ -1,0 +1,41 @@
+services:
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crewai_groq_agent
+    
+    # Loads all variables from your .env file
+    env_file:
+      - .env
+
+    environment:
+      # Stability fixes for LiteLLM & CrewAI (Hardcoded here as they are infra-specific)
+      - LITELLM_LOG=ERROR
+      - DISABLE_AUTO_LOGGING=True
+      - PYTHONUNBUFFERED=1
+      - OTEL_SDK_DISABLED=true
+      - CREWAI_TRACING_ENABLED=false
+    
+    volumes:
+      - .:/app
+    
+    # Docker Compose Watch Configuration
+    develop:
+      watch:
+        # Rebuild image if dependencies change
+        - action: rebuild
+          path: requirements.txt
+        # Hot-sync code changes instantly
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - __pycache__/
+            - .venv/
+            - .env
+            - outputs/
+
+networks:
+  default:
+    name: crewai_network

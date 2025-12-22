@@ -1,0 +1,10 @@
+docker images
+docker ps
+docker system prune -a
+docker build -t groq_agent .
+docker run --rm -p 8501:8501 --env-file .env groq_agent
+docker build --progress=plain -t groq_agent .
+docker run --rm --env-file .env groq_agent
+docker run --env-file .env groq_agent
+docker compose up --build
+docker-compose down

@@ -1,0 +1,13 @@
+# Core Agent Framework
+crewai
+crewai-tools
+
+# LLM Connectors
+langchain-groq
+litellm[proxy]
+fastapi
+uvicorn
+
+# UI and Environment
+streamlit
+python-dotenv
