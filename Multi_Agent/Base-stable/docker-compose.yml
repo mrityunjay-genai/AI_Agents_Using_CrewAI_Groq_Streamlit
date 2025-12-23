@@ -1,0 +1,7 @@
+services:
+  research-app:
+    build: .
+    container_name: multi_agent_base
+    env_file: .env
+    volumes:
+      - ./docker_result:/app/output
