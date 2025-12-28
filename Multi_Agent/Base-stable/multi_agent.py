@@ -63,7 +63,7 @@ def create_writer_agent():
 
 def create_research_task(reserch_agent,topic):
     research_task=Task(
-        description=(f"""Identify the next big tren in {topic}.
+        description=(f"""Identify the next big trend in {topic}.
         Focus on the identifying pros and cons and the overall narratve.
         Your final report should be clearly artculate the key points,
         its market opportunties and potential risks.
